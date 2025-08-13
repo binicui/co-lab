@@ -13,14 +13,20 @@ spring:
       static-locations:
         - file:src/main/resources/static/
   datasource:
-    url: jdbc:h2:mem:colab_test;MODE=MySQL;DB_CLOSE_DELAY=-1
+    url: jdbc:h2:mem:test;MODE=MySQL;DB_CLOSE_DELAY=-1
     username: sa
     driver-class-name: org.h2.Driver
+  flyway:
+    enabled: false
   sql:
     init:
       mode: EMBEDDED
       schema-locations:
         - classpath:sql/h2/schema.sql
+  h2:
+    console:
+      path: /h2-console
+      enabled: true
 
 
 mybatis:
