@@ -1,0 +1,39 @@
+# ================================================================================
+# 개발 환경 설정
+# - 기능 개발 및 테스트를 위한 인 메모리 H2 데이터베이스 설정
+# ================================================================================
+
+spring:
+  # H2 인 메모리 데이터베이스 연결 정보
+  datasource:
+    url: jdbc:h2:mem:dev_db;MODE=MySQL;DB_CLOSE_DELAY=-1
+    username: sa
+    driver-class-name: org.h2.Driver
+  flyway:
+    enabled: false  # 스키마 버전 관리 비활성화
+  sql:
+    init:
+      # 내장 데이터베이스 사용시 스크립트 파일 실행
+      mode: embedded
+#      schema-locations:
+#        - classpath:sql/h2/create-schema.sql
+#      data-locations:
+#        - classpath:sql/h2/data.sql
+  h2:
+    console:
+      path: /h2-console
+      enabled: true
+
+
+
+
+
+
+
+
+
+
+
+
+
+

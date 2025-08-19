@@ -1,0 +1,53 @@
+# ================================================================================
+# 프로젝트의 공통 설정 파일
+# - 전역적으로 적용되는 설정 정의
+# - 환경별 프로파일 활성화
+# ================================================================================
+
+spring:
+  application:
+    name: colab-v1.1
+  profiles:
+    active: dev   # 현재 활성화할 프로파일
+  main:
+    # 서버 런타임시 출력되는 배너 끄기
+    banner-mode: off
+  # 브라우저의 새로고침을 통해 화면단 변경 이력 적용을 위한 템플릿 파일 경로(상대 경로)와 캐시값 설정
+  thymeleaf:
+    prefix: file:src/main/resources/templates/
+    suffix: .html
+    mode: HTML
+    encoding: UTF-8
+    cache: false    # 개발 완료시 true로 변경
+  # 브라우저의 새로고침을 통해 화면단 변경 이력 적용을 위한 정적 리소스 경로(상대 경로) 설정
+  web:
+    resources:
+      static-locations:
+        - file:src/main/resources/static/
+
+
+mybatis:
+  # 마이바티스 런타임시 적용될 전역 설정
+  configuration:
+    cache-enabled: false
+    lazy-loading-enabled: true
+    map-underscore-to-camel-case: true
+    call-setters-on-nulls: true
+    local-cache-scope: STATEMENT
+    jdbc-type-for-null: NULL
+  # 마이바티스에서 사용될 자바 클래스의 패키지 지정
+  type-aliases-package: com.bincui.colab.domain.**.dto
+  # 마이바티스의 사용자 정의 타입 핸들러의 패키지 지정
+  type-handlers-package: com.bincui.colab.global.common.type
+  # 매퍼 파일의 위치 지정
+  mapper-locations:
+    - classpath:mappers/*_mapper.xml
+
+
+server:
+  port: 80
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
