@@ -54,7 +54,80 @@ CREATE TABLE IF NOT EXISTS LOGIN_HISTORIES (
     BROWSER                 VARCHAR(25)             NOT NULL,
     EVENT_TYPE              CHAR(1)                 NOT NULL,
     LOGIN_AT                DATETIME                NOT NULL,
-    LOGOUT_AT               DATETIME                NULL
+    LOGOUT_AT               DATETIME                NULL,
     PRIMARY KEY (ID),
     CONSTRAINT FK_LOGIN_HISTORIES_USER_ID FOREIGN KEY (USER_ID) REFERENCES USERS (ID)
+);
+
+
+
+DROP TABLE IF EXISTS BOARDS CASCADE;
+CREATE TABLE IF NOT EXISTS BOARDS (
+    ID                      INT                     NOT NULL AUTO_INCREMENT,
+    NAME                    VARCHAR(50)             NOT NULL,
+    DESCRIPTION             VARCHAR(250)            NOT NULL,
+    SORT                    INT                     NOT NULL,
+    DELETED_YN              CHAR(1)                 NOT NULL DEFAULT 'N',
+    CREATED_AT              DATETIME                NOT NULL DEFAULT NOW(),
+    UPDATED_AT              DATETIME                NOT NULL,
+    DELETED_AT              DATETIME                NULL,
+    PRIMARY KEY (ID)
+);
+
+DROP TABLE IF EXISTS POSTS CASCADE;
+CREATE TABLE IF NOT EXISTS POSTS (
+    ID                      INT                     NOT NULL AUTO_INCREMENT,
+    BOARD_ID                INT                     NOT NULL,
+    USER_ID                 INT                     NOT NULL,
+    TITLE                   VARCHAR(150)            NOT NULL,
+    CONTENTS                TEXT                    NOT NULL,
+    CREATED_AT              DATETIME                NOT NULL DEFAULT NOW(),
+    UPDATED_AT              DATETIME                NOT NULL,
+    PRIMARY KEY (ID),
+    CONSTRAINT FK_POSTS_BOARD_ID FOREIGN KEY (BOARD_ID) REFERENCES BOARDS (ID),
+    CONSTRAINT FK_POSTS_USER_ID FOREIGN KEY (USER_ID) REFERENCES USERS (ID)
+);
+
+DROP TABLE IF EXISTS POST_ATTACHMENTS CASCADE;
+CREATE TABLE IF NOT EXISTS POST_ATTACHMENTS (
+    ID                      INT                     NOT NULL AUTO_INCREMENT,
+    POST_ID                 INT                     NOT NULL,
+    ORIGINAL_NAME           VARCHAR(255)            NOT NULL,
+    SAVED_PATH              VARCHAR(255)            NOT NULL,
+    SAVED_NAME              VARCHAR(255)            NOT NULL,
+    EXTENSION               CHAR(8)                 NOT NULL,
+    FILE_SIZE               INT                     NOT NULL,
+    CREATED_AT              DATETIME                NOT NULL DEFAULT NOW(),
+    UPDATED_AT              DATETIME                NOT NULL,
+    PRIMARY KEY (ID),
+    CONSTRAINT FK_POST_ATTACHMENTS_POST_ID FOREIGN KEY (POST_ID) REFERENCES POSTS (ID)
+);
+
+DROP TABLE IF EXISTS POST_LIKES CASCADE;
+CREATE TABLE IF NOT EXISTS POST_LIKES (
+    POST_ID                 INT                     NOT NULL,
+    USER_ID                 INT                     NOT NULL,
+    CREATED_AT              DATETIME                NOT NULL DEFAULT NOW(),
+    PRIMARY KEY (POST_ID, USER_ID),
+    CONSTRAINT FK_POST_LIKES_POST_ID FOREIGN KEY (POST_ID) REFERENCES POSTS (ID),
+    CONSTRAINT FK_POST_LIKES_USER_ID FOREIGN KEY (USER_ID) REFERENCES USERS (ID)
+);
+
+DROP TABLE IF EXISTS COMMENTS CASCADE;
+CREATE TABLE IF NOT EXISTS COMMENTS (
+    ID                      INT                     NOT NULL AUTO_INCREMENT,
+    POST_ID                 INT                     NOT NULL,
+    PARENT_COMMENT_ID       INT                     NULL,
+    USER_ID                 INT                     NOT NULL,
+    CONTENTS                VARCHAR(300)            NOT NULL,
+    DEPTH                   INT                     NOT NULL,
+    SORT                    INT                     NOT NULL,
+    DELETED_YN              CHAR(1)                 NOT NULL DEFAULT 'N',
+    CREATED_AT              DATETIME                NOT NULL DEFAULT NOW(),
+    UPDATED_AT              DATETIME                NOT NULL,
+    DELETED_AT              DATETIME                NULL,
+    PRIMARY KEY (ID),
+    CONSTRAINT FK_COMMENTS_POST_ID FOREIGN KEY (POST_ID) REFERENCES POSTS (ID),
+    CONSTRAINT FK_COMMENTS_PARENT_COMMENT_ID FOREIGN KEY (PARENT_COMMENT_ID) REFERENCES COMMENTS (ID),
+    CONSTRAINT FK_COMMENTS_USER_ID FOREIGN KEY (USER_ID) REFERENCES USERS (ID)
 );
