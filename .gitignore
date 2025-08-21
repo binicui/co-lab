@@ -1,11 +1,6 @@
 HELP.md
 .gradle
 build/
-### Add Files ###
-application-prod.yml
-env.yml
-*-env.yml
-
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
@@ -23,6 +18,8 @@ bin/
 !**/src/test/**/bin/
 
 ### IntelliJ IDEA ###
+.application-prod.yml
+.env*
 .idea
 *.iws
 *.iml
