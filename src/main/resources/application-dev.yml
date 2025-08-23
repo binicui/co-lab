@@ -1,0 +1,29 @@
+# ================================================================================
+#   # 기능 개발 및 테스트를 위한 환경 설정
+# ================================================================================
+
+spring:
+  # H2 데이터베이스 연결 설정
+  datasource:
+    url: jdbc:h2:mem:testdb;MODE=MySQL;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: sa
+  # 데이터베이스 초기화 설정
+  sql:
+    init:
+      encoding: utf-8
+      # 초기화 모드 : 내장 데이터베이스 사용시 스크립트 실행
+      mode: embedded
+      schema-locations:
+        - classpath:sql/schema.sql
+      data-locations:
+        - classpath:sql/data.sql
+  # H2 콘솔 접속 설정
+  h2:
+    console:
+      path: /h2-console
+      enabled: true
+
+# 서버 포트 변경
+server:
+  port: 80

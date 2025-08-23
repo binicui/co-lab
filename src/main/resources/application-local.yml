@@ -1,0 +1,14 @@
+# ================================================================================
+#   # 로컬 PC에 따른 환경 설정
+# ================================================================================
+
+spring:
+  config:
+    # 환경 변수를 정의한 설정 파일 가져오기
+    import: optional:file:.env[.properties]
+  # 로컬 데이터베이스
+  datasource:
+    driver-class-name: ${DB_DRIVER}
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}

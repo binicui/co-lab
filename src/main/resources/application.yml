@@ -1,0 +1,57 @@
+# ================================================================================
+#   # 애플리케이션 공통 설정 및 환경별 프로파일 활성화
+# ================================================================================
+
+# 스프링부트 프로파일 활성화 및 공통 설정
+spring:
+  profiles:
+    # 활성화할 프로파일 지정
+    active:
+      - dev
+  application:
+    name: colab-v1
+  main:
+    # 서버 런타임 시 콘솔 상에 출력되는 배너 끄기
+    banner-mode: off
+  # 웹 브라우저의 새로고침을 통해 개발 중 변경 사항을 즉시 반영하기 위해 템플릿 경로와 캐싱 설정
+  thymeleaf:
+    prefix: file:src/main/resources/templates/
+    suffix: .html
+    cache: false  # 개발 완료시 템플릿 캐싱을 활성화로 변경
+  web:
+    resources:
+      # 타임리프 설정과 동일한 이유로 인한 정적 리소스 파일의 경로 설정
+      static-locations:
+        - file:src/main/resources/static/
+                    
+# 마이바티스 설정
+mybatis:
+  # 마이바티스 런타임시 적용될 전역 설정
+  configuration:
+    # 지연 로딩 비활성화
+    lazy-loading-enabled: false
+    # 스네이크 케이스 표기법의 필드명을 카멜 케이스로 매핑 처리
+    map-underscore-to-camel-case: true
+    # 컬럼 값이 null 일 경우 누락되는 현상 방지
+    call-setters-on-nulls: true
+    # 세컨드 레벨 캐시 비활성화
+    cache-enabled: false
+    # 로컬 캐시 적용 범위 변경
+    local-cache-scope: STATEMENT
+    # 파라미터의 값의 null 허용 설정
+    jdbc-type-for-null: NULL
+  # 마이바티스에서 사용될 자바 클래스의 패키지 경로 지정
+  type-aliases-package: com.bincui.colab.domain.**.dto
+  # 자체 정의한 마이바티스 타입 핸들러 클래스의 패키지 경로 지정
+  type-handlers-package: com.bincui.colab.global.common.type
+  mapper-locations:
+    - classpath:mapper/*_mapper.xml
+
+# 서버 설정
+server:
+  servlet:
+    # 서블릿 컨테이너 인코딩 설정 : HTTP 요청 및 응답 UTF-8 인코딩 지정
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
