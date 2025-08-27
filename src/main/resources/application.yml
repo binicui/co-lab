@@ -28,18 +28,12 @@ spring:
 mybatis:
   # 마이바티스 런타임시 적용될 전역 설정
   configuration:
-    # 지연 로딩 비활성화
-    lazy-loading-enabled: false
-    # 스네이크 케이스 표기법의 필드명을 카멜 케이스로 매핑 처리
-    map-underscore-to-camel-case: true
-    # 컬럼 값이 null 일 경우 누락되는 현상 방지
-    call-setters-on-nulls: true
-    # 세컨드 레벨 캐시 비활성화
-    cache-enabled: false
-    # 로컬 캐시 적용 범위 변경
-    local-cache-scope: STATEMENT
-    # 파라미터의 값의 null 허용 설정
-    jdbc-type-for-null: NULL
+    lazy-loading-enabled: false   # 지연 로딩 비활성화
+    map-underscore-to-camel-case: true  # 스네이크 케이스 표기법의 필드명을 카멜 케이스로 매핑 처리
+    call-setters-on-nulls: true   # 컬럼 값이 null 일 경우 누락되는 현상 방지
+    cache-enabled: false  # 세컨드 레벨 캐시 비활성화
+    local-cache-scope: STATEMENT  # 로컬 캐시 적용 범위 변경
+    jdbc-type-for-null: NULL  # 파라미터의 값의 null 허용 설정
   # 마이바티스에서 사용될 자바 클래스의 패키지 경로 지정
   type-aliases-package: com.bincui.colab.domain.**.dto
   # 자체 정의한 마이바티스 타입 핸들러 클래스의 패키지 경로 지정
